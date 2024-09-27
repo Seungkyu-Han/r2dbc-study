@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'fastcampus'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-mustache")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.security:spring-security-core")
+
+    // reactor tool
+    implementation("io.projectreactor:reactor-tools")
+
+    // r2dbc
+    implementation("io.asyncer:r2dbc-mysql:0.9.2")
+
+    // rxjava
+    implementation("io.reactivex.rxjava3:rxjava")
+
+
+    if (System.getProperty("os.arch") == "aarch64" && System.getProperty("os.name") == "Mac OS X") {
+        runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.2.0.Alpha4:osx-aarch_64")
+    }
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

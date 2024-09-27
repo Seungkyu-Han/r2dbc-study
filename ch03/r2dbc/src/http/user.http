@@ -1,0 +1,33 @@
+GET http://localhost:8080/api/users/100000
+
+> {%
+    client.test("Status should be 404", function() {
+        client.assert(response.status === 404);
+    });
+%}
+
+###
+GET http://localhost:8080/api/users/19
+X-I-AM: ef5f1d
+
+> {%
+    client.test("Status should be 200", function() {
+        client.assert(response.status === 200);
+
+        client.assert(response.body.id === '19');
+        client.assert(response.body.name === 'peter');
+        client.assert(response.body.age === 50);
+    });
+%}
+
+###
+POST http://localhost:8080/api/users/signup
+Content-Type: application/json
+
+{
+  "name": "peter",
+  "age": 50,
+  "gender": "F",
+  "password" : "1234",
+  "profileImageId": "7"
+}
